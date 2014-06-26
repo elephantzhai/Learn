@@ -7,7 +7,7 @@ License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
 
 import bisect
 import random
-
+# average num
 def Mean(t):
     """Computes the mean of a sequence of numbers.
 
@@ -19,7 +19,7 @@ def Mean(t):
     """
     return float(sum(t)) / len(t)
 
-
+# average and var
 def MeanVar(t):
     """Computes the mean and variance of a sequence of numbers.
 
@@ -33,7 +33,7 @@ def MeanVar(t):
     var = Var(t, mu)
     return mu, var
 
-
+# cut most big and most little num
 def Trim(t, p=0.01):
     """Trims the largest and smallest elements of t.
 
@@ -48,12 +48,12 @@ def Trim(t, p=0.01):
     t = sorted(t)[n:-n]
     return t
 
-
+# 
 def Jitter(values, jitter=0.5):
     """Jitters the values by adding a uniform variate in (-jitter, jitter)."""
     return [x + random.uniform(-jitter, jitter) for x in values]
 
-
+# average of cut most big and most little num
 def TrimmedMean(t, p=0.01):
     """Computes the trimmed mean of a sequence of numbers.
 
@@ -69,7 +69,7 @@ def TrimmedMean(t, p=0.01):
     t = Trim(t, p)
     return Mean(t)
 
-
+#average and var of cut most big and most little num
 def TrimmedMeanVar(t, p=0.01):
     """Computes the trimmed mean and variance of a sequence of numbers.
 
@@ -86,7 +86,7 @@ def TrimmedMeanVar(t, p=0.01):
     mu, var = MeanVar(t)
     return mu, var
 
-
+# var
 def Var(t, mu=None):
     """Computes the variance of a sequence of numbers.
 
@@ -105,8 +105,8 @@ def Var(t, mu=None):
     dev2 = [(x - mu)**2 for x in t]
     var = Mean(dev2)
     return var
-
-
+#  k
+# Cn    choose k from n
 def Binom(n, k, d={}):
     """Compute the binomial coefficient "n choose k".
 
