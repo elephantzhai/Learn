@@ -77,23 +77,42 @@ def PmfVar():
 	print pmf.Var(),varSum
 
 # 2-6
-
+def ProbRange(pmf,low,high):
+	total = 0.0
+	for week in range(low,high+1):
+		total += pmf.Prob(week)
+	return total
 
 def ProbEarly(pmf):
-	pass
+	return ProbRange(pmf,0,37)
 
 def ProbOnTime(pmf):
-	pass
+	return ProbRange(pmf,38,40)
 
 def ProbLate(pmf):
-	pass
+	return ProbRange(pmf,41,50)
+
+def ComputeRelativeRisk(first_pmf,other_pmf):
+	funcs = [ProbEarly,ProbOnTime,ProbLate]
+	risks = {}
+
+	print "Prob:"
+	for func in funcs:
+		for pmf in [first_pmf,other_pmf]:
+			risks[func.__name__,pmf.name] = func(pmf)
+			print func.__name__,pmf.name,risks[func.__name__,pmf.name]
+	
+	print "risk ratio (first baby/other baby)"
+	for func in funcs:
+		ratio = risks[func.__name__,first_pmf.name]/risks[func.__name__,other_pmf.name]
+		print "risk ratio:",func.__name__,ratio		
+
+
 
 def risk():
-	earlyPmf,ontimePmf,latePmf = descriptive.MakeTables()
-	ProbEarly(earlyPmf)
-	ProbOnTime(ontimePmf)
-	ProbLate(latePmf)
-	pool, firsts, others
+	pool,first,other = descriptive.MakeTables()
+	ComputeRelativeRisk(first.pmf,other.pmf)
+
 
 
 			
@@ -106,4 +125,4 @@ if __name__ == '__main__':
 	# RemainingLifetime()
 	# PmfMean()
 	# PmfVar()
-	risk()
+	# risk()
