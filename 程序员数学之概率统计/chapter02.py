@@ -3,6 +3,7 @@ import math
 import survey
 import Pmf
 import operator
+import descriptive
 # 2-1-1
 def Punpkin():
 	weights = [1,1,1,3,3,591]
@@ -75,6 +76,24 @@ def PmfVar():
 		varSum+=freq*(var-mean)**2
 	print pmf.Var(),varSum
 
+# 2-6
+
+
+def ProbEarly(pmf):
+	pass
+
+def ProbOnTime(pmf):
+	pass
+
+def ProbLate(pmf):
+	pass
+
+def risk():
+	earlyPmf,ontimePmf,latePmf = descriptive.MakeTables()
+	ProbEarly(earlyPmf)
+	ProbOnTime(ontimePmf)
+	ProbLate(latePmf)
+	pool, firsts, others
 
 
 			
@@ -86,4 +105,5 @@ if __name__ == '__main__':
 	# Allmodes()
 	# RemainingLifetime()
 	# PmfMean()
-	PmfVar()
+	# PmfVar()
+	risk()
