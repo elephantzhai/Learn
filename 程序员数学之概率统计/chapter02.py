@@ -4,6 +4,7 @@ import survey
 import Pmf
 import operator
 import descriptive
+import matplotlib.pyplot as pyplot
 # 2-1-1
 def Punpkin():
 	weights = [1,1,1,3,3,591]
@@ -107,11 +108,53 @@ def ComputeRelativeRisk(first_pmf,other_pmf):
 		ratio = risks[func.__name__,first_pmf.name]/risks[func.__name__,other_pmf.name]
 		print "risk ratio:",func.__name__,ratio		
 
-
-
 def risk():
 	pool,first,other = descriptive.MakeTables()
 	ComputeRelativeRisk(first.pmf,other.pmf)
+
+# 2-7
+def conditionPmf(pmf,filt_func,name = "conditional"):
+	
+	cond_pmf = pmf.Copy(name)
+	vals = [val for val in pmf.Values() if(filt_func(val))]
+	for val in vals:
+		cond_pmf.Remove(val)
+
+	cond_pmf.Normalize()
+	return cond_pmf
+
+
+def conditionOnWeeks(pmf,week=39,name = "conditional"):
+
+	def filt_func(x):
+		return x < week
+
+	return conditionPmf(pmf,filt_func,name)
+
+
+def makeFigures(first,other):
+	weeks = range(35,46)
+
+	probs = {}
+	for table in [first,other]:
+		name = table.pmf.name
+		probs[name] = []
+		for week in weeks:
+			cond = conditionOnWeeks(table.pmf,week)
+			prob = cond.Prob(week)
+			print week, prob, table.pmf.name
+			probs[name].append(prob)
+
+	pyplot.clf()
+	for name,ps in probs.iteritems():
+		pyplot.plot(weeks, ps, label=name)
+	pyplot.show()
+		
+
+
+def conditional():
+	pool,first,other = descriptive.MakeTables()
+	makeFigures(first,other)
 
 
 
@@ -126,3 +169,4 @@ if __name__ == '__main__':
 	# PmfMean()
 	# PmfVar()
 	# risk()
+	conditional()

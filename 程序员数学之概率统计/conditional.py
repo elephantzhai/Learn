@@ -75,6 +75,7 @@ def MakeFigure(firsts, others):
     for name, ps in probs.iteritems():
         pyplot.plot(weeks, ps, label=name)
         print name, ps
+    # pyplot.show()
         
     myplot.Save(root='conditional',
                 xlabel='weeks',
