@@ -1,5 +1,6 @@
 ﻿import Pmf
 import myplot
+import urllib
 # 3-1
 def BiasedPmf(pmf,name,invert = False):
 	new_pmf = pmf.Copy()
@@ -45,5 +46,37 @@ def ClassSize():
  	myplot.Pmfs([actualPmf,biased_pmf])
  	myplot.Show(xlabel = 'ClassSize',ylabel = 'Pmf')
 
+ #3-2-1
+def CleanLine(line):
+	t = line.split();
+	if len(t) <6:
+		return None
+	place, divtot, div, gun, net, pace = t[0:6]
+
+	if '/' not in divtot:
+		return None
+
+	for time in [gun, net, pace]:
+		if ':' not in time:
+			return None
+	return place, divtot, div, gun, net, pace
+
+def ReadResult():
+	websiteUrl = 'http://www.coolrunning.com/results/10/ma/Apr25_27thAn_set1.shtml'
+	result = []
+	con = urllib.urlopen(websiteUrl)
+	for line in con.fp:
+		t = CleanLine(line)
+		if t:
+			result.append(t)
+
+	return result
+
+def Relay():
+	result = ReadResult()
+	print len(result)
+ 	pass
+
 if __name__ == "__main__":
-	ClassSize()
+	# ClassSize()
+	Relay()
