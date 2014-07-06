@@ -1,6 +1,7 @@
 ﻿import Pmf
 import myplot
 import urllib
+import Cdf
 # 3-1
 def BiasedPmf(pmf,name,invert = False):
 	new_pmf = pmf.Copy()
@@ -72,11 +73,54 @@ def ReadResult():
 
 	return result
 
+def ConvertPaceToSpeed(pace):
+	m,s =[int(x) for x in pace.split(':')]
+	secs = m*60+s
+	speed = 1.0/secs*60*60
+	return speed
+
+def GetSpeed(results,column = 5):
+	speeds = []
+	for t in results:
+		pace = t[column]
+		speed = ConvertPaceToSpeed(pace)
+		speeds.append(speed)
+
+	return speeds
+
 def Relay():
-	result = ReadResult()
-	print len(result)
- 	pass
+	results = ReadResult()
+	speeds = GetSpeed(results)
+	speedPmf = Pmf.MakePmfFromList(speeds,'speeds')
+ 	myplot.Pmf(speedPmf)
+ 	myplot.Show(title='PMF of running speed',xlabel='speed (mph)',ylabel='probability')
+# 3-2-2
+def BiasedObserverPmf(pmf,myspeed,name = 'observerd'):
+	new_pmf = pmf.Copy(name)
+	for speed,prob in pmf.Items():
+		new_pmf.Mult(speed,abs(myspeed - speed))
+	new_pmf.Normalize()
+
+	return new_pmf
+
+
+def Relay_soln():
+	results = ReadResult()
+	speeds = GetSpeed(results)
+	actualPmf = Pmf.MakePmfFromList(speeds,'actual')
+
+	observedPmf = BiasedObserverPmf(actualPmf,7.5,'observerd')
+	myplot.Clf()
+	myplot.Hist(observedPmf)
+	myplot.Show(title='PMF of running speed',xlabel='speed (mph)',ylabel='probability')
+
+	observedCdf = Cdf.MakeCdfFromPmf(observedPmf)
+	myplot.Clf()
+	myplot.Cdf(observedCdf)
+	myplot.Show(title='Cdf of running speed',xlabel='speed (mph)',ylabel='probability')
+
 
 if __name__ == "__main__":
 	# ClassSize()
-	Relay()
+	# Relay()
+	# Relay_soln()
