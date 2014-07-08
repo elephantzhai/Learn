@@ -119,8 +119,36 @@ def Relay_soln():
 	myplot.Cdf(observedCdf)
 	myplot.Show(title='Cdf of running speed',xlabel='speed (mph)',ylabel='probability')
 
+# 3-3	
+def PercentileRank(scores,yourScore):
+	count = 0
+	for score in scores:
+		if(score<=yourScore):
+			count+=1
 
+	percentile_rank = 100*count/len(scores)
+	return percentile_rank
+
+def Percentile1(scores,percentile_rank):
+	scores.sort()
+	for score in scores:
+		if PercentileRank(scores,score)>=percentile_rank:
+			return score
+
+def Percentile2(scores,percentile_rank):
+	scores.sort()
+	index = percentile_rank*(len(scores)-1)/100
+	return scores[index]
+
+def Percentile():
+	scores = [55,66,77,88,99]
+	your_score = 77
+	percentile_rank = PercentileRank(scores,your_score)
+	print 'PercentileRank',percentile_rank
+	print 'Percentile1',Percentile1(scores,percentile_rank)
+	print 'Percentile2',Percentile2(scores,percentile_rank)
 if __name__ == "__main__":
 	# ClassSize()
 	# Relay()
 	# Relay_soln()
+	Percentile()
