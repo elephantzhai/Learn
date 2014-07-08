@@ -2,6 +2,7 @@
 import myplot
 import urllib
 import Cdf
+import descriptive
 # 3-1
 def BiasedPmf(pmf,name,invert = False):
 	new_pmf = pmf.Copy()
@@ -147,8 +148,22 @@ def Percentile():
 	print 'PercentileRank',percentile_rank
 	print 'Percentile1',Percentile1(scores,percentile_rank)
 	print 'Percentile2',Percentile2(scores,percentile_rank)
+
+# 3-6
+def BirthCdf():
+	pool,first,other = descriptive.MakeTables()
+	allCdf = Cdf.MakeCdfFromPmf(pool.pmf)
+	firstCdf = Cdf.MakeCdfFromPmf(first.pmf)
+	otherCdf = Cdf.MakeCdfFromPmf(other.pmf)
+
+	weight = 39
+	print 'all',allCdf.Prob(weight)
+	print 'first',firstCdf.Prob(weight)
+	print 'other',otherCdf.Prob(weight)
+
 if __name__ == "__main__":
 	# ClassSize()
 	# Relay()
 	# Relay_soln()
-	Percentile()
+	# Percentile()
+	BirthCdf()
