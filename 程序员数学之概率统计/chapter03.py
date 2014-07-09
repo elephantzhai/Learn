@@ -3,6 +3,7 @@ import myplot
 import urllib
 import Cdf
 import descriptive
+import random
 # 3-1
 def BiasedPmf(pmf,name,invert = False):
 	new_pmf = pmf.Copy()
@@ -208,6 +209,56 @@ def ColorRunRate():
 	print 'pec in 40-49',(1-pec4049)*100
 	print 'speed in 50-59',speedAfter10
 	print 'speed in 20-39',studentGirlSpeed
+# 3-9
+def Sample(cdf,n):
+	randoms = []
+	for i in range(n):
+		randoms.append(cdf.Value(random.random()))
+	return randoms
+
+def ResambleBirth():
+	pool,first,other = descriptive.MakeTables()
+	allCdf = Cdf.MakeCdfFromPmf(pool.pmf)
+	randomCdf = Cdf.MakeCdfFromList(Sample(allCdf,1000))
+	randomCdf.name = 'random birth'
+
+	myplot.Clf()
+	myplot.Cdfs([allCdf,randomCdf])
+	myplot.show()
+
+def Random():
+	list1 =[1,2,3,4,5]
+	cdf = Cdf.MakeCdfFromList(list1)
+	print Sample(cdf,4) 
+	ResambleBirth()
+
+# 3-10
+def Random100():
+	results = []
+	for i in range(1000):
+		results.append(random.random())
+	pmf = Pmf.MakePmfFromList(results)
+	cdf = Cdf.MakeCdfFromPmf(pmf)
+
+	myplot.Clf()
+	myplot.Pmf(pmf)
+	myplot.show()
+
+	myplot.Clf()
+	myplot.Cdf(cdf)
+	myplot.show()
+# 3-11
+def Median(cdf):
+	return cdf.Value(0.5)
+
+def InterquartileRange(cdf):
+	return cdf.Value(0.75)-cdf.Value(0.25)
+
+def MedianAndInterquartileRange():
+	pool,first,other = descriptive.MakeTables()
+	allCdf = Cdf.MakeCdfFromPmf(pool.pmf)
+	print Median(allCdf)
+	print InterquartileRange(allCdf)
 
 
 if __name__ == "__main__":
@@ -216,4 +267,9 @@ if __name__ == "__main__":
 	# Relay_soln()
 	# Percentile()
 	# BirthCdf()
-	ColorRunRate()
+	# ColorRunRate()
+	# Random()
+	# Random100()
+	MedianAndInterquartileRange()
+
+
