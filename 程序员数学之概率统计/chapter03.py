@@ -32,7 +32,6 @@ def ClassSize():
          42: 3, 
          47: 2, 
     }
- 	print 'hi'
  	actualPmf = Pmf.MakePmfFromDict(d, 'actual')
  	print 'actual mean:',actualPmf.Mean()
  	print 'actual var:',actualPmf.Var()
@@ -51,9 +50,9 @@ def ClassSize():
  #3-2-1
 def CleanLine(line):
 	t = line.split();
-	if len(t) <6:
+	if len(t) <10:
 		return None
-	place, divtot, div, gun, net, pace = t[0:6]
+	place, divtot, div, gun, net, pace, name1,name2 ,age ,sex= t[0:10]
 
 	if '/' not in divtot:
 		return None
@@ -61,7 +60,15 @@ def CleanLine(line):
 	for time in [gun, net, pace]:
 		if ':' not in time:
 			return None
-	return place, divtot, div, gun, net, pace
+	try:
+		int(age)
+	except ValueError:
+		return None
+	
+	if not(sex == 'M' or sex == 'F'):
+		return None
+
+	return place, divtot, div, gun, net, pace, name1,name2 ,int(age), sex
 
 def ReadResult():
 	websiteUrl = 'http://www.coolrunning.com/results/10/ma/Apr25_27thAn_set1.shtml'
@@ -160,10 +167,53 @@ def BirthCdf():
 	print 'all',allCdf.Prob(weight)
 	print 'first',firstCdf.Prob(weight)
 	print 'other',otherCdf.Prob(weight)
+# 3-8
+def GetSpeedByRangeAndSex(results,column = 5,lowAge = 0,highAge = 200,ageCloumn = 8,sexRange = None,sexColumn = 9):
+	speeds = []
+	for t in results:
+		age = t[ageCloumn]
+		if(age>=lowAge and age<highAge ):
+			sex = t[sexColumn]
+			if(sexRange and sexRange != sex):
+				continue
+			pace = t[column]
+			speed = ConvertPaceToSpeed(pace)
+			speeds.append(speed)
+
+	return speeds
+
+def ColorRunRate():
+	results = ReadResult()
+	allSpeeds = GetSpeedByRangeAndSex(results)
+	m4049Speeds = GetSpeedByRangeAndSex(results,lowAge=40,highAge=50,sexRange = 'M')
+	m5059Speeds = GetSpeedByRangeAndSex(results,lowAge=50,highAge=60,sexRange = 'M')
+	f2039Speeds = GetSpeedByRangeAndSex(results,lowAge=20,highAge=40,sexRange = 'F')
+	allSpeeds.sort()
+	m4049Speeds.sort()
+	m5059Speeds.sort()
+	f2039Speeds.sort()
+
+	print len(results),len(allSpeeds),len(m4049Speeds),len(m5059Speeds),len(f2039Speeds)
+	allCdf = Cdf.MakeCdfFromList(allSpeeds)
+	m4049Cdf = Cdf.MakeCdfFromList(m4049Speeds)
+	m5059Cdf = Cdf.MakeCdfFromList(m5059Speeds)
+	f2039Cdf = Cdf.MakeCdfFromList(f2039Speeds)
+
+	pecAll =  allCdf.Prob(allSpeeds[96])
+	pec4049 = m4049Cdf.Prob(m4049Speeds[26])
+	speedAfter10 = m5059Cdf.Value(pec4049)
+	studentGirlSpeed = f2039Cdf.Value(pec4049)
+	
+	print 'pec in all age',(1-pecAll)*100
+	print 'pec in 40-49',(1-pec4049)*100
+	print 'speed in 50-59',speedAfter10
+	print 'speed in 20-39',studentGirlSpeed
+
 
 if __name__ == "__main__":
 	# ClassSize()
 	# Relay()
 	# Relay_soln()
 	# Percentile()
-	BirthCdf()
+	# BirthCdf()
+	ColorRunRate()
