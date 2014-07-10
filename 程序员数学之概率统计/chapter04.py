@@ -48,10 +48,25 @@ def HeightInWorld():
 		if heighest<height:
 			heighest = height
 	print 'heighest',heighest
+# 4-6
+def WeibullDistribution():
+	results = []
+	k = 2
+	lamada = 1
+
+	sampleNum = 6000
+	for i in range(sampleNum):
+		results.append(random.weibullvariate(lamada,k))
+	cdf = Cdf.MakeCdfFromList(results)
+	myplot.Clf()
+	myplot.Cdf(cdf,complement=True,xscale = 'log',yscale = 'log')
+	# myplot.Cdf(cdf)
+	myplot.show()
 
 
 
 if __name__  == '__main__':
 	# expovariateTest()
 	# ParetovariateTest()
-	HeightInWorld()
+	# HeightInWorld()
+	WeibullDistribution()
