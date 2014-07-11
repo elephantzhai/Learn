@@ -16,11 +16,11 @@ import matplotlib.pyplot as pyplot
 # print sorted(c.items())
 # print zip(*sorted(c.items()))
 
-hist= Pmf.MakeHistFromList([1,2,2,3,5])
-print hist.Freq(2)
-print hist.Values()
-print hist.Items()
-pyplot.pie([1,2,3])
-pyplot.show()
+# hist= Pmf.MakeHistFromList([1,2,2,3,5])
+# print hist.Freq(2)
+# print hist.Values()
+# print hist.Items()
+# pyplot.pie([1,2,3])
+# pyplot.show()
 
 # vals,freqs
