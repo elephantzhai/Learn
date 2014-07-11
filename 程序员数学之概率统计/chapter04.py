@@ -2,6 +2,7 @@
 import random
 import myplot
 import Pmf
+import erf
 # 4-1
 def expovariateTest():
 	results = []
@@ -62,11 +63,17 @@ def WeibullDistribution():
 	myplot.Cdf(cdf,complement=True,xscale = 'log',yscale = 'log')
 	# myplot.Cdf(cdf)
 	myplot.show()
-
+# 4-7
+def Intelligence():
+	print '>115',1-erf.NormalCdf(115,mu = 100,sigma = 15)
+	print '>130',1-erf.NormalCdf(130,mu = 100,sigma = 15)
+	print '>145',1-erf.NormalCdf(145,mu = 100,sigma = 15)
+	print '>190 people',(1-erf.NormalCdf(190,mu = 100,sigma = 15))*60*100000000
 
 
 if __name__  == '__main__':
 	# expovariateTest()
 	# ParetovariateTest()
 	# HeightInWorld()
-	WeibullDistribution()
+	# WeibullDistribution()
+	Intelligence();
