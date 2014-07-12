@@ -4,6 +4,8 @@ import myplot
 import Pmf
 import erf
 import descriptive
+import rankit
+import relay
 # 4-1
 def expovariateTest():
 	results = []
@@ -103,6 +105,27 @@ def Samples():
 def RanKit():
 	Samples()
 
+# 4-10-1
+def NormalPlot(ys):
+	n = len(ys)
+	xs = [random.normalvariate(0,1) for i in range(n)]
+	ys.sort()
+	xs.sort()
+	myplot.Clf()
+	myplot.Plot(xs,ys)
+	myplot.show()
+
+def MakeNormalPolt():
+	ys = [i for i in range(100)]
+	NormalPlot(ys)
+# 4-10-2
+def RelayNormal():
+	results = relay.ReadResults()
+	speeds = relay.GetSpeeds(results)
+	NormalPlot(speeds)
+
+
+
 if __name__  == '__main__':
 	# expovariateTest()
 	# ParetovariateTest()
@@ -110,4 +133,6 @@ if __name__  == '__main__':
 	# WeibullDistribution()
 	# Intelligence();
 	# BirthDate()
-	RanKit()
+	# RanKit()
+	# MakeNormalPolt()
+	RelayNormal()
