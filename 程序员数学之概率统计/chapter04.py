@@ -6,6 +6,10 @@ import erf
 import descriptive
 import rankit
 import relay
+import brfss
+import thinkstats
+import math
+import continuous
 # 4-1
 def expovariateTest():
 	results = []
@@ -124,6 +128,27 @@ def RelayNormal():
 	speeds = relay.GetSpeeds(results)
 	NormalPlot(speeds)
 
+# 4-11
+def Brfss_figs():
+	resp = brfss.Respondents()
+	resp.ReadRecords()
+	print len(resp.records)
+	results = [r.wtkg2 for r in resp.records if r.wtkg2 != 'NA']
+	cdf = Cdf.MakeCdfFromList(results)
+	t = results[:]
+	t.sort()
+	mean,var = thinkstats.TrimmedMeanVar(t)
+	print 'len,mean,var',len(t),mean,var
+	sigma = math.sqrt(var)
+	myplot.Clf()
+	xs,ps = continuous.RenderNormalCdf(mean,sigma,175)
+	myplot.Plot(xs,ps)
+	xs,ps = cdf.Render()
+	myplot.Plot(xs,ps)
+	myplot.show()
+
+
+
 
 
 if __name__  == '__main__':
@@ -135,4 +160,5 @@ if __name__  == '__main__':
 	# BirthDate()
 	# RanKit()
 	# MakeNormalPolt()
-	RelayNormal()
+	# RelayNormal()
+	Brfss_figs()
