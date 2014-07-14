@@ -10,6 +10,7 @@ import brfss
 import thinkstats
 import math
 import continuous
+import populations
 # 4-1
 def expovariateTest():
 	results = []
@@ -146,9 +147,27 @@ def Brfss_figs():
 	xs,ps = cdf.Render()
 	myplot.Plot(xs,ps)
 	myplot.show()
+# 4-12-2
+def populations2():
+	results = populations.ReadData()
+	cdf = Cdf.MakeCdfFromList(results)
+	myplot.Clf()
+	myplot.Cdf(cdf)
+	myplot.show()
 
-
-
+# 4-12-3
+def population3():
+	results = populations.ReadData()
+	cdf = Cdf.MakeCdfFromList(results)
+	myplot.Clf()
+	myplot.Cdf(cdf)
+	myplot.show(xscale = 'log')
+	# myplot.show(xscale = 'log',yscale = 'log')
+def population4():
+	results = populations.ReadData()
+	# cdf = Cdf.MakeCdfFromList(results)
+	t = [math.log(p)for p in results]
+	NormalPlot(t)
 
 
 if __name__  == '__main__':
@@ -161,4 +180,7 @@ if __name__  == '__main__':
 	# RanKit()
 	# MakeNormalPolt()
 	# RelayNormal()
-	Brfss_figs()
+	# Brfss_figs()
+	# populations2()
+	# population3()
+	population4()
