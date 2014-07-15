@@ -175,7 +175,6 @@ def population4():
 # 4-13
 def Irs():
 	data = irs.ReadIncomeFile()
-	print 1
 	hist, pmf, cdf = irs.MakeIncomeDist(data)
 	myplot.Clf()
 	myplot.Cdf(cdf)
