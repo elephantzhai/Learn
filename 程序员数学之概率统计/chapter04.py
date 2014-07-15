@@ -181,6 +181,14 @@ def Irs():
 	myplot.Cdf(cdf)
 	myplot.show(xscale = 'log')
 
+# 4-14
+def weibullvariate():
+	p = random.random()
+	lam = 3
+	k = 2
+
+	x = lam*((-1*math.log(1-p))**(1.0/k))
+	print x
 
 if __name__  == '__main__':
 	# expovariateTest()
@@ -196,4 +204,5 @@ if __name__  == '__main__':
 	# populations2()
 	# population3()
 	# population4()
-	Irs()
+	# Irs()
+	weibullvariate()
