@@ -11,6 +11,7 @@ import thinkstats
 import math
 import continuous
 import populations
+import irs
 # 4-1
 def expovariateTest():
 	results = []
@@ -163,11 +164,22 @@ def population3():
 	myplot.Cdf(cdf)
 	myplot.show(xscale = 'log')
 	# myplot.show(xscale = 'log',yscale = 'log')
+
+# 4-12-4
 def population4():
 	results = populations.ReadData()
 	# cdf = Cdf.MakeCdfFromList(results)
 	t = [math.log(p)for p in results]
 	NormalPlot(t)
+
+# 4-13
+def Irs():
+	data = irs.ReadIncomeFile()
+	print 1
+	hist, pmf, cdf = irs.MakeIncomeDist(data)
+	myplot.Clf()
+	myplot.Cdf(cdf)
+	myplot.show(xscale = 'log')
 
 
 if __name__  == '__main__':
@@ -183,4 +195,5 @@ if __name__  == '__main__':
 	# Brfss_figs()
 	# populations2()
 	# population3()
-	population4()
+	# population4()
+	Irs()
