@@ -19,6 +19,7 @@ def MontyHall():
 			numB+=1
 	print numA,numB
 
+# 5-5
 def HenriPoincare():
 	ave = 950
 	sigma = 50
@@ -100,16 +101,118 @@ def MonteCarloGame1():
 			game10+=1
 	print game10,gameTimes
 
+def MonteCarloGame2():
+	testTimes = 200
+	gameTimes = 82
+	playerNum = 10
+	playTimes = 15
+	continueNum = 10
+	contineuCount = 0
+	for t in range(testTimes):
+		isSee = False
+		for i in range(gameTimes):
+			for j in range(playerNum):
+				# result = [random.random()>0.5 for k in range(playTimes)]
+				isInState = None
+				num = 0
+				for k in range(playTimes):
+					p = random.random()>0.5
+					if num == 0:
+						isInState = p
+						num =1
+					else:
+						if isInState == p:
+							num+=1
+						else:
+							if num == continueNum:
+								isSee = True
+								continue
+							else:
+								if playTimes-k<continueNum:
+									continue
+								else:
+									isInState = p
+									num = 1
+				if num == continueNum:
+					isSee = True
+				if isSee:
+					continue
+			if isSee:
+				continue
+		if isSee:
+			contineuCount+=1
+	print contineuCount,testTimes
 
 
 
 def MonteCarloGame():
-	MonteCarloGame1()
+	# MonteCarloGame1()
+	MonteCarloGame2()
 
-# 5-5
+# 5-13
+def CancerTest1():
+	totalList = []
+	total = 0
+	year = 10
+	peopleNum = 1000
+	p = 0.001
+	for i in range(year):
+		new = 0
+		for j in range(peopleNum):
+			if random.random()<p:
+				new+=1
+		peopleNum -= new
+		total += new
+		totalList.append(total)
+	print totalList
+def CancerTest2():
+	total = 0
+	year = 10
+	peopleNum = 100
+	p = 0.05
+	for i in range(year):
+		new = 0
+		for j in range(peopleNum):
+			if random.random()<p:
+				new+=1
+		peopleNum -= new
+		total += new
+	print total
+
+def CancerTest3():
+	
+	year = 10
+	peopleNum = 100
+	pCancer = 0.001
+	pWatch = 0.02
+	groupNum = 100
+	groupCount = 0
+
+	for k in range(groupNum):
+		total = 0
+		tempPeople = peopleNum
+		for i in range(year):
+			new = 0
+			for j in range(tempPeople):
+				if random.random()<pCancer:
+					new+=1
+			tempPeople -= new
+			total += new
+		if total>= pWatch*peopleNum:
+			groupCount+=1
+	print groupCount,groupNum
+
+
+
+def CancerTest():
+	# CancerTest1()
+	# CancerTest2()
+	CancerTest3()
+
 if __name__  == '__main__':
 	# MontyHall()
 	# HenriPoincare()
 	# DanceWomanHigherThanMan()
 	# OneHundredCoin()
-	MonteCarloGame()
+	# MonteCarloGame()
+	CancerTest()
