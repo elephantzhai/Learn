@@ -52,9 +52,64 @@ def HenriPoincare():
 	myplot.show()
 
 
-	
-	
+# 5-7
+def DanceWomanHigherThanMan():
+	uMan,varMan = 178 ,59.4
+	uWoman,varWoman = 163,52.8
+	sigmaMan = math.sqrt(varMan)
+	sigmaWoman = math.sqrt(varWoman)
+
+	n = 1000
+	nMan,nWoman = 0,0
+
+	for i in range(n):
+		pMan = random.random()
+		pWoman = random.random()
+		hMan = erf.NormalCdfInverse(pMan,mu = uMan,sigma = sigmaMan)
+		hWoman = erf.NormalCdfInverse(pWoman,mu = uWoman,sigma = sigmaWoman)
+		if hMan>hWoman:
+			nMan+=1
+		else:
+			nWoman+=1
+
+	print nMan,nWoman
+
+# 5-10
+def OneHundredCoin():
+	p = thinkstats.Binom(n=100,k=50)*(0.5**50)*((1-0.5)**50)
+	print p
+
+# 5-11
+def MonteCarloGame1():
+	gameTimes = 100
+	playerNum = 10
+	playTimes = 15
+
+	game10 = 0
+	for i in range(gameTimes):
+		player10 = 0
+		for j in range(playerNum):
+			n = 0
+			for k in range(playTimes):
+				if random.random()>0.5:
+					n+=1
+			if n==10:
+				player10+=1
+				continue
+		if player10>0:
+			game10+=1
+	print game10,gameTimes
+
+
+
+
+def MonteCarloGame():
+	MonteCarloGame1()
+
 # 5-5
 if __name__  == '__main__':
 	# MontyHall()
-	HenriPoincare()
+	# HenriPoincare()
+	# DanceWomanHigherThanMan()
+	# OneHundredCoin()
+	MonteCarloGame()
