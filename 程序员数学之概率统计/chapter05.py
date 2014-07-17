@@ -209,10 +209,25 @@ def CancerTest():
 	# CancerTest2()
 	CancerTest3()
 
+# 5-14
+def UseMedicalRate():
+	medicalUseRate = 0.05
+	sensetive = 0.6
+	special = 0.99
+
+	realRate = medicalUseRate*sensetive/(sensetive*medicalUseRate+(1-special)*(1-medicalUseRate))
+	print realRate
+
+# 5-15
+def MMchocolate():
+	print 0.5*0.2/(0.2*0.5+0.14*0.5)
+
 if __name__  == '__main__':
 	# MontyHall()
 	# HenriPoincare()
 	# DanceWomanHigherThanMan()
 	# OneHundredCoin()
 	# MonteCarloGame()
-	CancerTest()
+	# CancerTest()
+	# UseMedicalRate()
+	MMchocolate()
