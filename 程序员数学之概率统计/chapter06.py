@@ -1,6 +1,7 @@
 ﻿import survey
 import thinkstats
 import math
+import irs
 # 6-1-1
 def Skewness(samples):
 	l = len(samples)
@@ -40,11 +41,20 @@ def SkewnessTest():
 	# samples = [2,2,3,4,5,6]
 	# print Skewness(samples)
 	# Skewness2()
-	# PearsonSkewness()
+	PearsonSkewness()
+
+# 6-3
+def Gini():
+	data = irs.ReadIncomeFile()
+	hist, pmf, cdf = MakeIncomeDist(data)
+	
+
+
 	
 
 
 
 
 if __name__ == '__main__':
-	SkewnessTest()
+	# SkewnessTest()
+	Gini()
