@@ -26,31 +26,32 @@ import matplotlib.pyplot as pyplot
 # vals,freqs
 
 
-isSee = False
+# isSee = False
 
-res = [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1]
-playTimes = len(res)
-continueNum = 10
-isInState = None
-num = 0
-for k in range(playTimes):
-	p = res[k]==1
-	if num == 0:
-		isInState = p
-		num =1
-	else:
-		if isInState == p:
-			num+=1
-		else:
-			if num == continueNum:
-				isSee = True
-				continue
-			else:
-				if playTimes-k<continueNum:
-					continue
-				else:
-					isInState = p
-					num = 1
-if num == continueNum:
-	isSee = True
-print isSee
+# res = [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1]
+# playTimes = len(res)
+# continueNum = 10
+# isInState = None
+# num = 0
+# for k in range(playTimes):
+# 	p = res[k]==1
+# 	if num == 0:
+# 		isInState = p
+# 		num =1
+# 	else:
+# 		if isInState == p:
+# 			num+=1
+# 		else:
+# 			if num == continueNum:
+# 				isSee = True
+# 				continue
+# 			else:
+# 				if playTimes-k<continueNum:
+# 					continue
+# 				else:
+# 					isInState = p
+# 					num = 1
+# if num == continueNum:
+# 	isSee = True
+# print isSee
+print 2**2*2

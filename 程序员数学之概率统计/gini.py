@@ -61,6 +61,7 @@ def SummarizeData(pmf, cdf):
     sigma = math.sqrt(m2)
     print 'sigma:', sigma
 
+    print m3,m2
     g1 = m3 / m2**(3/2)
     print 'skewness:', g1
 
