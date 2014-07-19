@@ -3,6 +3,9 @@ import thinkstats
 import math
 import irs
 import Pmf
+import random
+import brfss
+import erf
 # 6-1-1
 def Skewness(samples):
 	l = len(samples)
@@ -86,9 +89,56 @@ def Gini():
 	print 'g1',g1
 	print 'gp',gp
 	print 'gini',gini
+
+# 6-4
+class GumbelDistribution():
+	def __init__(self,u,beta):
+		self.u = u
+		self.beta = beta
+
+	def generate(self):
+		x = random.random()
+		tmp1 = (x-self.u)/self.beta*-1
+		tmp2 = math.exp(tmp1)*-1
+		return math.exp(tmp2)
+
+
+def GumbelDistributionTest():
+	u,beta = 2,4
+	gum = GumbelDistribution(u,beta)
+	print gum.generate()
 	
 
+# 6-5
+def CDFexpLamada(x,lamada):
+	return -1*math.exp(-1*lamada*x)
 
+def CDFbetweenExpLamada(lamada,x1,x2):
+	return CDFexpLamada(lamada,x2)-CDFexpLamada(lamada,x1)
+
+def CDFexpLamadaTest():
+	lamada = 2
+	x1,x2 = 1,20
+	print CDFbetweenExpLamada(lamada,x1,x2)
+
+# 6-6
+def BluePeople():
+	resp = brfss.Respondents()
+	resp.ReadRecords()
+
+	manNum = 0
+	for r in resp.records:
+		if r.sex == 1:
+			manNum += 1
+	print manNum
+	# manNum = 155703
+
+	manMu,manSigma = 178,59.4
+	x1,x2 = 178,185
+	p1 = erf.NormalCdf(x1,mu = manMu,sigma = manSigma)
+	p2 = erf.NormalCdf(x2,mu = manMu,sigma = manSigma)
+	num = (p2-p1)*manNum
+	print num
 	
 
 
@@ -96,4 +146,7 @@ def Gini():
 
 if __name__ == '__main__':
 	# SkewnessTest()
-	Gini()
+	# Gini()
+	# GumbelDistributionTest()
+	# CDFexpLamadaTest()
+	BluePeople()
