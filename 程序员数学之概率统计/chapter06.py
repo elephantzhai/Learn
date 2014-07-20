@@ -140,7 +140,29 @@ def BluePeople():
 	num = (p2-p1)*manNum
 	print num
 	
+# 6-9
+def PmfXplusY(pmf_x,pmf_y):
+	XplusY = Pmf.Pmf()
+	for v1,p1 in pmf_x.Items():
+		for v2,p2 in pmf_y.Items():
+			XplusY.Incr(v1+v2,p1*p2)
+	return XplusY
 
+def PmfMaxofXandY(pmf_x,pmf_y):
+	maxofXandY = Pmf.Pmf()
+	for v1,p1 in pmf_x.Items():
+		for v2,p2 in pmf_y.Items():
+			maxofXandY.Incr(v1 if v1>v2 else v2,p1*p2)
+	return maxofXandY
+
+def Pmfconvolution():
+	l1,l2 = [1,2,3],[2,3,4]
+	pmf1 = Pmf.MakePmfFromList(l1)
+	pmf2 = Pmf.MakePmfFromList(l2)
+	xPlusY = PmfXplusY(pmf1,pmf2)
+	print xPlusY.Items()
+	maxofXandY = PmfMaxofXandY(pmf1,pmf2)
+	print maxofXandY.Items()
 
 
 
@@ -149,4 +171,6 @@ if __name__ == '__main__':
 	# Gini()
 	# GumbelDistributionTest()
 	# CDFexpLamadaTest()
-	BluePeople()
+	# BluePeople()
+	# PmfXplusY()
+	Pmfconvolution()
