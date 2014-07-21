@@ -190,7 +190,28 @@ def CentralLimitTheorem():
 	myplot.Clf()
 	myplot.Cdf(cdf)
 	myplot.show()
-	
+
+# 6-15
+def MakePmfFromCdf(cdf):
+	pmf = Pmf.Pmf()
+
+	formP = 0
+	for var,p in cdf.Items():
+		pmf.Incr(var,p-formP)
+		formP = p
+
+	return pmf
+
+def TestMakePmfFromCdf():
+	l1 = [1,2,3,4]
+	cdf = Cdf.MakeCdfFromList(l1)
+
+	print cdf.Items()
+
+	pmf = MakePmfFromCdf(cdf)
+
+	print pmf.Items()
+
 
 
 
@@ -202,4 +223,5 @@ if __name__ == '__main__':
 	# BluePeople()
 	# PmfXplusY()
 	# Pmfconvolution()
-	CentralLimitTheorem()
+	# CentralLimitTheorem()
+	TestMakePmfFromCdf()
