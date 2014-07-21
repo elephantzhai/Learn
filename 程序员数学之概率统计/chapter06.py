@@ -1,4 +1,5 @@
-﻿import survey
+﻿
+import survey
 import thinkstats
 import math
 import irs
@@ -6,6 +7,8 @@ import Pmf
 import random
 import brfss
 import erf
+import myplot
+import Cdf
 # 6-1-1
 def Skewness(samples):
 	l = len(samples)
@@ -164,6 +167,31 @@ def Pmfconvolution():
 	maxofXandY = PmfMaxofXandY(pmf1,pmf2)
 	print maxofXandY.Items()
 
+# 6-13
+def ExpLamadaX(lamada,x):
+	return lamada * math.exp(-1*lamada*x)
+
+def CentralLimitTheorem():
+	num = 4
+	times = 100
+	maxX = 2
+	lamadas = [i+2 for i in range(num)]
+	sumHist = Pmf.Hist()
+
+	for i in range(times):
+		sumRes = 0
+		x = random.random()*maxX
+		for lamada in lamadas:
+			sumRes += ExpLamadaX(lamada,x)
+			sumHist.Incr(sumRes)
+
+	cdf = Cdf.MakeCdfFromHist(sumHist)
+
+	myplot.Clf()
+	myplot.Cdf(cdf)
+	myplot.show()
+	
+
 
 
 if __name__ == '__main__':
@@ -173,4 +201,5 @@ if __name__ == '__main__':
 	# CDFexpLamadaTest()
 	# BluePeople()
 	# PmfXplusY()
-	Pmfconvolution()
+	# Pmfconvolution()
+	CentralLimitTheorem()
