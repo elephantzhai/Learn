@@ -1,4 +1,4 @@
-﻿import random
+import random
 import readsurvey
 import thinkstats
 import Cdf
@@ -14,16 +14,23 @@ def MeanAndDiff(l1,l2):
 def SampleWithReplayment(model,n):
 	return [random.choice(model) for i in range(n)]
 
+def SamleWithoutRelayment(model,n):
+	return random.sample(model,n)
 
-def ReSample(model1,model2,n,m):
-	t1 = SampleWithReplayment(model1,n)
-	t2 = SampleWithReplayment(model2,m)
+def ReSample(model1,model2,n,m,isRelay = True):
+	if isRelay:
+		t1 = SampleWithReplayment(model1,n)
+		t2 = SampleWithReplayment(model2,m)
+	else:
+		t1 = SamleWithoutRelayment(model1,n)
+		t2 = SamleWithoutRelayment(model2,m)
+
 	delta = thinkstats.Mean(t1) - thinkstats.Mean(t2)
 	return delta
 
-def PValue(model1,model2,n,m,delta,iter = 1000):
+def PValue(model1,model2,n,m,delta,isRelay = True,iter = 1000):
 
-	deltas = [ReSample(model1,model2,n,m) for i in range(iter)]
+	deltas = [ReSample(model1,model2,n,m,isRelay) for i in range(iter)]
 
 	cdf = Cdf.MakeCdfFromList(deltas)
 
@@ -33,9 +40,6 @@ def PValue(model1,model2,n,m,delta,iter = 1000):
 	pvalue = left+right
 
 	return cdf,pvalue
-
-
-
 
 
 def AverageDiffTest():
@@ -56,9 +60,37 @@ def AverageDiffTest():
 	myplot.Cdf(cdf)
 	myplot.show()
 
+# 7-2
+def Partition(list1,n):
+	random.shuffle(list1)
+	return list1[n:],list1[:n]
+
+def PartitionDiffTest():
+	random.seed(1)
+	pool,first,others = readsurvey.MakeTables()
+
+	partitionRate = 1.0*1/2
+	partitionSize = int(len(pool.lengths)*partitionRate)
+	n = int(len(first.lengths)*partitionRate)
+	m = int(len(others.lengths)*partitionRate)
+	actual1,model1 = Partition(first.lengths,n)
+	actual2,model2 = Partition(others.lengths,m)
+	modelPool = model1+model2
+
+	firstMean,othersMean,delta = MeanAndDiff(actual1,actual2)
+	delta = abs(delta)
+	print len(modelPool),n,m,partitionSize
+	cdf,pvalue = PValue(modelPool,modelPool,n,m,delta,isRelay = False)
+
+	print pvalue
+
+	myplot.clf()
+	myplot.Cdf(cdf)
+	myplot.show()
 
 
 
 
 if __name__ == '__main__':
-	AverageDiffTest()
+	# AverageDiffTest()
+	PartitionDiffTest()

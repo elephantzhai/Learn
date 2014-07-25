@@ -1,6 +1,7 @@
 ﻿import thinkstats
 import Pmf
 import matplotlib.pyplot as pyplot
+import random
 
 # a = [1,2,3,2]
 # b = {1:[1,2,3,4],2:[5,6,7,8],3:[9,10,11,12]}
@@ -54,4 +55,10 @@ import matplotlib.pyplot as pyplot
 # if num == continueNum:
 # 	isSee = True
 # print isSee
-print 2**2*2
+# print 2**2*2
+
+li = [1,2,3,4,5]
+print li[2:],li[:2]
+
+rate = 1.0*1/2
+print int(14*rate)
