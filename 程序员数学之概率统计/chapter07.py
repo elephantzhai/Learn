@@ -65,6 +65,16 @@ def Partition(list1,n):
 	random.shuffle(list1)
 	return list1[n:],list1[:n]
 
+def Test(actual1,actual2,model1,model2,isRelay = True):
+	n = len(actual1)
+	m = len(actual2)
+
+	firstMean,othersMean,delta = MeanAndDiff(actual1,actual2)
+	delta = abs(delta)
+	cdf,pvalue = PValue(model1,model2,n,m,delta,isRelay)
+
+	return cdf,pvalue
+
 def PartitionDiffTest():
 	random.seed(1)
 	pool,first,others = readsurvey.MakeTables()
@@ -77,20 +87,37 @@ def PartitionDiffTest():
 	actual2,model2 = Partition(others.lengths,m)
 	modelPool = model1+model2
 
-	firstMean,othersMean,delta = MeanAndDiff(actual1,actual2)
-	delta = abs(delta)
-	print len(modelPool),n,m,partitionSize
-	cdf,pvalue = PValue(modelPool,modelPool,n,m,delta,isRelay = False)
-
+	# firstMean,othersMean,delta = MeanAndDiff(actual1,actual2)
+	# delta = abs(delta)
+	# print len(modelPool),n,m,partitionSize
+	# cdf,pvalue = PValue(modelPool,modelPool,n,m,delta,isRelay = False)
+	cdf,pvalue = Test(actual1,actual2,modelPool,modelPool,isRelay = False)
 	print pvalue
 
 	myplot.clf()
 	myplot.Cdf(cdf)
 	myplot.show()
 
+#7-3
+def PosteriorProbability():
+	pool,first,others = readsurvey.MakeTables()
+
+	# n = len(first.weights)
+	# m = len(others.weights)
+	# firstMean,othersMean,delta = MeanAndDiff(first.weights,others.weights)
+	# delta = abs(delta)
+	# cdf,pvalue = PValue(first.weights,others.weights,n,m,delta)
+
+	cdf0,peh0 = Test(first.weights,others.weights,pool.weights,pool.weights)
+	cdfa,peha = Test(first.weights,others.weights,first.weights,others.weights)
+
+
+	print peh0,peha
+
 
 
 
 if __name__ == '__main__':
-	# AverageDiffTest()
-	PartitionDiffTest()
+	AverageDiffTest()
+	# PartitionDiffTest()
+	# PosteriorProbability()
