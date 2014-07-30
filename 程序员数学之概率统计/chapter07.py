@@ -111,13 +111,18 @@ def PosteriorProbability():
 	cdf0,peh0 = Test(first.weights,others.weights,pool.weights,pool.weights)
 	cdfa,peha = Test(first.weights,others.weights,first.weights,others.weights)
 
+	ph0,pha = 0.5,0.5
+	pe = ph0*peh0+pha*peha
 
-	print peh0,peha
+	ph0e = peh0*ph0/pe
+	phae = peha*pha/pe
+
+	print ph0e,phae
 
 
 
 
 if __name__ == '__main__':
-	AverageDiffTest()
+	# AverageDiffTest()
 	# PartitionDiffTest()
-	# PosteriorProbability()
+	PosteriorProbability()
