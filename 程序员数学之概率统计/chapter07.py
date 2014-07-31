@@ -3,6 +3,9 @@ import readsurvey
 import thinkstats
 import Cdf
 import myplot
+import Pmf
+import itertools
+import chi
 
 # 7-1
 def MeanAndDiff(l1,l2):
@@ -119,10 +122,72 @@ def PosteriorProbability():
 
 	print ph0e,phae
 
+#7-6
+def MakeDicePmf(times):
+	points = [1,2,3,4,5,6]
+	data = zip(points,times)
+	pmf = Pmf.Pmf()
+	for p,v in data:
+		pmf.Incr(p,v)
+	pmf.Normalize()
+	return pmf
+
+def ChiSquared(excepted,observed):
+	tmp = zip(excepted,observed)
+	t = [(obs-exp)**2/exp for obs,exp in tmp]
+	return sum(t)
+
+def ChiTest(times,cdf):
+	values = cdf.Values()
+	hist = Pmf.Hist()
+	for v in values:
+		hist.Incr(v,0)
+
+	for i in range(times):
+		v = cdf.Value(random.random())
+		hist.Incr((v),1)
+	return hist.Freqs()
+
+
+def ChiTestForDice():
+	points = [1,2,3,4,5,6]
+	totalTimes = 60
+
+	print 'observed'
+	observedTimes = [8,9,19,6,8,10]
+	print observedTimes
+
+	print 'excepted'
+	exceptedTimes = [10,10,10,10,10,10]
+	exceptedCdf = Cdf.MakeCdfFromItems(zip(points,exceptedTimes))
+	print exceptedTimes
+
+	print 'chi_squared'
+	chi1 = ChiSquared(exceptedTimes,observedTimes)
+	print chi1
+
+	testTimes = 1000
+	count = 0
+	chis = []
+	for i in range(testTimes):
+		sumiTimes = ChiTest(totalTimes,exceptedCdf)
+		chi2 = ChiSquared(exceptedTimes,sumiTimes)
+		if chi2 >chi1:
+			count+=1
+		chis.append(chi2)
+
+	print 'max chi2'
+	print max(chis)
+
+	print 'pvalue'
+	pvalue = 1.0*count/testTimes
+	print pvalue
+
 
 
 
 if __name__ == '__main__':
 	# AverageDiffTest()
 	# PartitionDiffTest()
-	PosteriorProbability()
+	# PosteriorProbability()
+	ChiTestForDice()

@@ -37,6 +37,9 @@ class Cdf(object):
         Note: in Python3, returns an iterator.
         """
         return zip(self.xs, self.ps)
+        
+    def Probs(self):
+        return self.ps
 
     def Append(self, x, p):
         """Add an (x, p) pair to the end of this CDF.
