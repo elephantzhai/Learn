@@ -1,6 +1,8 @@
 import random
 import thinkstats
 import math
+import Pmf
+import myplot
 
 #8-1
 def MSE(isAverage = True):
@@ -71,8 +73,49 @@ def ExponentialDistributionTest():
 	print Exponential(isAverage = True)
 	print Exponential(isAverage = False)
 	
+# 8-7 mainbody
+def MakeUniformSuite(low,high,steps):
+	items = [low+(high - low)*i*1.0/(steps-1) for i in range(steps)]
+	pmf = Pmf.MakePmfFromList(items)
+	return pmf
+
+def ExpoPdf(x,param):
+	p = param*math.exp(-param*x)
+	return p
+
+def Likelihood(evidence,hypo):
+	param = hypo
+	likelihood = 1.0
+	for x in evidence:
+		likelihood *= ExpoPdf(x,param)
+	return likelihood
+
+def Update(prior,evidence):
+	for hypo in prior.Values():
+		likelihood = Likelihood(evidence,hypo)
+		prior.Mult(hypo,likelihood)
+	prior.Normalize()
+
+def EstimateParameter(prior,evidence):
+	posterior = prior.Copy()
+	Update(posterior,evidence)
+	return posterior
+
+def EstimateTest():
+	evidence = [2.675, 0.198, 1.152, 0.787, 2.717, 4.269]
+	prior = MakeUniformSuite(0.5,1.5,1000)
+	posterior = EstimateParameter(prior,evidence)
+	myplot.Clf()
+	myplot.Pmf(posterior)
+	myplot.show()
+
+
+
+
+
 
 if __name__ == '__main__':
 	# MSETest()
 	# EstimatorTest()
-	ExponentialDistributionTest()
+	# ExponentialDistributionTest()
+	EstimateTest()
