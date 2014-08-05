@@ -109,6 +109,15 @@ def EstimateTest():
 	myplot.Pmf(posterior)
 	myplot.show()
 
+# 8-4
+def DecayTest():
+	X = [1.5,2,3,4,5,12]
+	prior = MakeUniformSuite(0.001,1.5,1000)
+	posterior = EstimateParameter(prior,X)
+	myplot.Clf()
+	myplot.Pmf(posterior)
+	myplot.show()
+
 
 
 
@@ -118,4 +127,5 @@ if __name__ == '__main__':
 	# MSETest()
 	# EstimatorTest()
 	# ExponentialDistributionTest()
-	EstimateTest()
+	# EstimateTest()
+	DecayTest()
