@@ -1,7 +1,3 @@
-
-# 9-1
-
-if __name__ = "__main__":
 """This file contains code used in "Think Stats",
 by Allen B. Downey, available from greenteapress.com
 

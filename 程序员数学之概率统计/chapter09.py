@@ -1,9 +1,8 @@
 import thinkstats
 import math
+import brfss
 # 9-1
-def Cov(pairs):
-	l1,l2 = zip(*pairs)
-
+def Cov(l1,l2):
 	mean1 = thinkstats.Mean(l1)
 	sigma1 = math.sqrt(thinkstats.Var(l1))
 	mean2 = thinkstats.Mean(l2)
@@ -26,13 +25,10 @@ def Cov(pairs):
 def CovTest():
 	l1 = [1,2,3,4,5,6]
 	l2 = [1,3,5,7,9,11]
-	pairs = zip(l1,l2)
-	print Cov(pairs)
+	print Cov(l1,l2)
 
 # 9-2
-def Corr(pairs):
-	l1,l2 = zip(*pairs)
-
+def Corr(l1,l2):
 	mean1 = thinkstats.Mean(l1)
 	sigma1 = math.sqrt(thinkstats.Var(l1))
 	mean2 = thinkstats.Mean(l2)
@@ -58,8 +54,7 @@ def Corr(pairs):
 def CorrTest():
 	l1 = [1,2,3,4,5,6]
 	l2 = [1,3,5,7,9,11]
-	pairs = zip(l1,l2)
-	print Corr(pairs)
+	print Corr(l1,l2)
 
 # 9-3
 def MapToRanks(t):
@@ -76,17 +71,49 @@ def MapToRanks(t):
 
 	return ranks
 
-def SpearmanRank():
-	l1 = [1,2,3,4,5]
-	l2 = [2,3,4,5,6]
-
+def SpearmanRank(l1,l2):
 	r1 = MapToRanks(l1)
 	r2 = MapToRanks(l2)
 
-	pairs = zip(r1,r2)
-	print Corr(pairs)
+	return Corr(r1,r2)
+
+def SpearmanRankTest():
+	l1 = [1,2,3,4,5]
+	l2 = [2,3,4,5,6]
+	print SpearmanRank(l1,l2)
+
+# 9-4
+class Respondents(brfss.Respondents):
+
+	def GetHeightAndWeight(self):
+		heights = []
+		weights = []
+		for r in self.records:
+			if r.wtkg2 == 'NA' or r.htm3 == 'NA':
+				continue
+			heights.append(r.htm3)
+			weights.append(r.wtkg2)
+		return heights,weights
+def LogList(l):
+	r = []
+	for i in l:
+		r.append(math.log(i))
+	return r
+
+def BrfssTest():
+	resp = Respondents()
+	resp.ReadRecords()
+
+	heights,weights = resp.GetHeightAndWeight()
+	print 'num: ',len(heights)
+	print Corr(heights,weights)
+
+	logWeights = LogList(weights)
+	print Corr(heights,logWeights)
+	print SpearmanRank(heights,logWeights)
 
 if __name__ == "__main__":
 	# CovTest()
 	# CorrTest()
-	SpearmanRank()
+	# SpearmanRankTest()
+	BrfssTest()
