@@ -61,7 +61,32 @@ def CorrTest():
 	pairs = zip(l1,l2)
 	print Corr(pairs)
 
+# 9-3
+def MapToRanks(t):
+
+	pairs = enumerate(t)
+
+	sorted_pairs = sorted(pairs,key = lambda pair:pair[1])
+
+	trips = enumerate(sorted_pairs)
+
+	resorted = sorted(trips,key = lambda trip:trip[1][0])
+
+	ranks = [trip[0]+1 for trip in resorted]
+
+	return ranks
+
+def SpearmanRank():
+	l1 = [1,2,3,4,5]
+	l2 = [2,3,4,5,6]
+
+	r1 = MapToRanks(l1)
+	r2 = MapToRanks(l2)
+
+	pairs = zip(r1,r2)
+	print Corr(pairs)
 
 if __name__ == "__main__":
 	# CovTest()
-	CorrTest()
+	# CorrTest()
+	SpearmanRank()

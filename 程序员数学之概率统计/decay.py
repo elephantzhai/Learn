@@ -38,21 +38,21 @@ class Decay(thinkbayes.Suite):
         return ExpoCondPdf(data, hypo)
 
 
-def ExpoCondPdf(x, lam, low=1.0, high=20.0):
-    """Evaluates the conditional exponential PDF.
+    def ExpoCondPdf(x, lam, low=1.0, high=20.0):
+        """Evaluates the conditional exponential PDF.
 
-    Returns the probability density of x in the exponential PDF
-    with the given parameter, with the condition that low < x < high.
+        Returns the probability density of x in the exponential PDF
+        with the given parameter, with the condition that low < x < high.
 
-    Args:
-      x: float observed value
-      lam: float parameter of the exponential distribution
-      low: float, low end of the observable range
-      high: float, high end of the observable range
-    """
-    factor = exp(-low * lam) - exp(-high * lam)
-    p = lam * exp(-lam * x) / factor
-    return p
+        Args:
+          x: float observed value
+          lam: float parameter of the exponential distribution
+          low: float, low end of the observable range
+          high: float, high end of the observable range
+        """
+        factor = exp(-low * lam) - exp(-high * lam)
+        p = lam * exp(-lam * x) / factor
+        return p
 
 
 def main():
