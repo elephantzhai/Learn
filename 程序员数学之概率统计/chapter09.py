@@ -10,9 +10,9 @@ def Cov(l1,l2):
 
 	X,Y = [],[]
 	for i in l1:
-		X.append((i - mean1)/sigma1)
+		X.append(i - mean1)
 	for i in l2:
-		Y.append((i - mean2)/sigma2)
+		Y.append(i - mean2)
 
 	n = len(X)
 	cov = 0
@@ -111,9 +111,32 @@ def BrfssTest():
 	logWeights = LogList(weights)
 	print Corr(heights,logWeights)
 	print SpearmanRank(heights,logWeights)
+# 9-5
+def LeastSquares(X,Y):
+	meanX,varX = thinkstats.MeanVar(X)
+	meanY,varY = thinkstats.MeanVar(Y)
+	b = Cov(X,Y)*1.0/varX
+	a = meanY - b*meanX
+	return a,b
+
+def LeastSquaresTest():
+	X = [1,2,3,4,5]
+	Y = [2,3,4,5,6]
+	a,b = LeastSquares(X,Y)
+	print a,b
+
+#9-6
+def BrfssLeastSquare():
+	resp = Respondents()
+	resp.ReadRecords()
+	heights,weights = resp.GetHeightAndWeight()
+	a,b = LeastSquares(heights,weights)
+	print a,b
 
 if __name__ == "__main__":
 	# CovTest()
 	# CorrTest()
 	# SpearmanRankTest()
-	BrfssTest()
+	# BrfssTest()
+	# LeastSquaresTest()
+	BrfssLeastSquare()
