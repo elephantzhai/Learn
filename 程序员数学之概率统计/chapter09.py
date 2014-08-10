@@ -133,10 +133,51 @@ def BrfssLeastSquare():
 	a,b = LeastSquares(heights,weights)
 	print a,b
 
+# 9-9
+def Residuals(X,Y,a,b):
+	n = len(X)
+	e = []
+	for i in range(n):
+		e.append(a+b*X[i] - Y[i])
+	return e
+
+def ResidualsTest():
+	X = [1,2,3,4,5]
+	Y = [2,3,4,5,6]
+	a,b = LeastSquares(X,Y)
+	e = Residuals(X,Y,a,b)
+	print e
+
+def CoefDetermination(e,Y):
+	return 1 - thinkstats.Var(e)*1.0/thinkstats.Var(Y)
+
+def CoefDeterminationTest():
+	X = [1,2,3,4,5]
+	Y = [1,3,4,5,7]
+	a,b = LeastSquares(X,Y)
+	e = Residuals(X,Y,a,b)
+	r2 = CoefDetermination(e,Y)
+	print r2
+
+# 9-10
+def BrfssCoefDetermination():
+	resp = Respondents()
+	resp.ReadRecords()
+	heights,weights = resp.GetHeightAndWeight()
+	log_weights = LogList(weights)
+	a,b = LeastSquares(heights,log_weights)
+	print a,b
+	e = Residuals(heights,log_weights,a,b)
+	r2 = CoefDetermination(e,log_weights)
+	print r2
+
 if __name__ == "__main__":
 	# CovTest()
 	# CorrTest()
 	# SpearmanRankTest()
 	# BrfssTest()
 	# LeastSquaresTest()
-	BrfssLeastSquare()
+	# BrfssLeastSquare()
+	# ResidualsTest()
+	# CoefDeterminationTest()
+	BrfssCoefDetermination()
