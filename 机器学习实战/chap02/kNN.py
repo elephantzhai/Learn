@@ -1,7 +1,8 @@
 ﻿# coding=UTF-8
 from numpy import *
 import operator
-
+import matplotlib
+import matplotlib.pyplot as plt
 # 2.1
 def createDataSet():
 	group = array([[1.0,1.1],[1.0,1.0],[0,0],[0,0.1]])
@@ -41,18 +42,41 @@ def file2matrix(filename):
 		classLabelVector.append(int(listFromLine[-1]))
 		index += 1
 	return returnMat,classLabelVector
+
+def datingPlot(datingDataMat,datingLables):
+	fig = plt.figure()
+	ax = fig.add_subplot(111)
+	ax.scatter(datingDataMat[:,1],datingDataMat[:,2],15.0*array(datingLables),15.0*array(datingLables))
+	plt.show()
+
+def autoNorm(dataSet):
+	minVals = dataSet.min(0)
+	maxVals = dataSet.max(0)
+	ranges = maxVals - minVals
+	m = dataSet.shape[0]
+	normDataSet = dataSet - tile(minVals,(m,1))
+	normDataSet = normDataSet/tile(ranges,(m,1))
+	return normDataSet,ranges,minVals
 	
-def datingTest():
-	filename = 'datingTestSet.txt'
-	file2matrix(filename)
+def datingClassTest():
+	filename = 'datingTestSet2.txt'
+	hoRatio = 0.10
+	datingDataMat,datingLables = file2matrix(filename)
+	normMat,ranges,minVals = autoNorm(datingDataMat)
+	m = normMat.shape[0]
+	numTestVecs = int(m*hoRatio)
+	errorCount = 0
+	for i in range(numTestVecs):
+		classifierResult = classify0(normMat[i,:],normMat[numTestVecs:m,:],datingLables[numTestVecs:m],3)
+		print classifierResult,datingLables[i]
+		if(classifierResult != datingLables[i]):
+			errorCount+=1
+	print "error rate:",errorCount*1.0/numTestVecs
+	# datingPlot(datingDataMat,datingLables)
 
 def main():
 	# classifyTest2_1()
-	datingTest()
-
-def test():
-	str = 'largedoses'
-	# print
+	datingClassTest()
 
 if __name__ == "__main__":
 	main()
