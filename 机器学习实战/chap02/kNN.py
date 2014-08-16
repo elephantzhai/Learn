@@ -110,6 +110,7 @@ def handWritingTest():
 		print classifierResult,classNameStr
 		if(classifierResult!=classNameStr):
 			errorCount+=1
+			
 	print "error num:",errorCount,"error rate:",errorCount*1.0/mTest
 
 
