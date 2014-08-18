@@ -20,9 +20,40 @@ def calcShannonEnt(dataSet):
 		shannonEnt -= prob*log(prob,2)
 	return shannonEnt
 
+def spiltDataSet(dataSet,axis,value):
+	retDataSet = []
+	for featVec in dataSet:
+		if featVec[axis] == value:
+			reduceFeatVec = featVec[:axis]
+			reduceFeatVec.extend(featVec[axis+1:])
+			retDataSet.append(reduceFeatVec)
+	return retDataSet
+
+def chooseBestFeatureToSplit(dataSet):
+	numFuatures = len(dataSet[0]) - 1
+	baseEntropy = calcShannonEnt(dataSet)
+	bestInfoGain,bestFeature = 0.0,-1
+	for i in range(numFuatures):
+		featList = [example[i] for example in dataSet]
+		uniqueVals =set(featList)
+		newEntropy = 0.0
+		for value in uniqueVals:
+			subDataSet = spiltDataSet(dataSet,i,value)
+			prob = len(subDataSet)/float(len(dataSet))
+			newEntropy += prob *calcShannonEnt(subDataSet)
+		infoGain = baseEntropy - newEntropy
+		if(infoGain > bestInfoGain):
+			bestInfoGain = infoGain
+			bestFeature = i
+	return bestFeature
+
+
 def shannonTest():
 	dataSet,labels = creteDataSet()
 	print calcShannonEnt(dataSet)
+	print spiltDataSet(dataSet,0,1)
+	print spiltDataSet(dataSet,0,0)
+	print chooseBestFeatureToSplit(dataSet)
 
 def main():
 	shannonTest()
