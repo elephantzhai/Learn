@@ -1,8 +1,9 @@
 ﻿# coding=UTF-8
 from math import log
+import operator
 
 def creteDataSet():
-	dataSet = [[1,1,'maybe'],[1,1,'yes'],[1,0,'no'],[0,1,'no'],[0,1,'no'],]
+	dataSet = [[1,1,'yes'],[1,1,'yes'],[1,0,'no'],[0,1,'no'],[0,1,'no'],]
 	labels = ['no surfacing','flippers']
 	return dataSet,labels
 
@@ -47,13 +48,42 @@ def chooseBestFeatureToSplit(dataSet):
 			bestFeature = i
 	return bestFeature
 
+def majorityCnt(classList):
+	classCount = {}
+	for vote in classList:
+		if vote not in classCount.keys():
+			classCount[vote] = 0
+		classCount[vote] += 1
+	sortedClassCount = sorted(classCount.iteritems(),key = operator.itemgetter(1),reverse= True)
+	return sortedClassCount[0][0]
+
+def createTree(dataSet,labels):
+	classList = [example[-1] for example in dataSet]
+	if classList.count(classList[0]) == len(classList):
+		return classList[0]
+	if len(dataSet[0]) == 1:
+		return majorityCnt(classList)
+	bestFeat = chooseBestFeatureToSplit(dataSet)
+	bestFeatLabel = labels[bestFeat]
+	myTree = {bestFeatLabel:{}}
+	del(labels[bestFeat])
+	featValues = [example[bestFeat] for example in dataSet]
+	uniqueVals = set(featValues)
+	for value in uniqueVals:
+		subLabels = labels[:]
+		myTree[bestFeatLabel][value] = createTree(spiltDataSet(dataSet,bestFeat,value),subLabels)
+	return myTree
+
 
 def shannonTest():
 	dataSet,labels = creteDataSet()
-	print calcShannonEnt(dataSet)
-	print spiltDataSet(dataSet,0,1)
-	print spiltDataSet(dataSet,0,0)
-	print chooseBestFeatureToSplit(dataSet)
+	# print calcShannonEnt(dataSet)
+	# print spiltDataSet(dataSet,0,1)
+	# print spiltDataSet(dataSet,0,0)
+	# print chooseBestFeatureToSplit(dataSet)
+	# print majorityCnt(labels)
+	print dataSet
+	print createTree(dataSet,labels)
 
 def main():
 	shannonTest()
