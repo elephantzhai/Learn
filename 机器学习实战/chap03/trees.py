@@ -2,7 +2,7 @@
 from math import log
 import operator
 
-def creteDataSet():
+def createDataSet():
 	dataSet = [[1,1,'yes'],[1,1,'yes'],[1,0,'no'],[0,1,'no'],[0,1,'no'],]
 	labels = ['no surfacing','flippers']
 	return dataSet,labels
@@ -60,11 +60,17 @@ def majorityCnt(classList):
 def createTree(dataSet,labels):
 	classList = [example[-1] for example in dataSet]
 	if classList.count(classList[0]) == len(classList):
+		print dataSet,"return1"
 		return classList[0]
 	if len(dataSet[0]) == 1:
+		print dataSet,"return2"
 		return majorityCnt(classList)
 	bestFeat = chooseBestFeatureToSplit(dataSet)
 	bestFeatLabel = labels[bestFeat]
+
+	print bestFeat,bestFeatLabel
+	print dataSet
+
 	myTree = {bestFeatLabel:{}}
 	del(labels[bestFeat])
 	featValues = [example[bestFeat] for example in dataSet]
@@ -76,13 +82,14 @@ def createTree(dataSet,labels):
 
 
 def shannonTest():
-	dataSet,labels = creteDataSet()
+	dataSet,labels = createDataSet()
 	# print calcShannonEnt(dataSet)
 	# print spiltDataSet(dataSet,0,1)
 	# print spiltDataSet(dataSet,0,0)
 	# print chooseBestFeatureToSplit(dataSet)
 	# print majorityCnt(labels)
 	print dataSet
+	print labels
 	print createTree(dataSet,labels)
 
 def main():
