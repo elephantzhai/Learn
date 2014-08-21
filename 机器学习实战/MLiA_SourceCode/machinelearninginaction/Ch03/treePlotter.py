@@ -31,14 +31,14 @@ def getTreeDepth(myTree):
     return maxDepth
 
 def plotNode(nodeTxt, centerPt, parentPt, nodeType):
-    createPlot.ax1.annotate(nodeTxt, xy=parentPt,  xycoords='axes fraction',
+    createPlot.axl.annotate(nodeTxt, xy=parentPt,  xycoords='axes fraction',
              xytext=centerPt, textcoords='axes fraction',
              va="center", ha="center", bbox=nodeType, arrowprops=arrow_args )
     
 def plotMidText(cntrPt, parentPt, txtString):
     xMid = (parentPt[0]-cntrPt[0])/2.0 + cntrPt[0]
     yMid = (parentPt[1]-cntrPt[1])/2.0 + cntrPt[1]
-    createPlot.ax1.text(xMid, yMid, txtString, va="center", ha="center", rotation=30)
+    createPlot.axl.text(xMid, yMid, txtString, va="center", ha="center", rotation=30)
 
 def plotTree(myTree, parentPt, nodeTxt):#if the first key tells you what feat was split on
     numLeafs = getNumLeafs(myTree)  #this determines the x width of this tree
