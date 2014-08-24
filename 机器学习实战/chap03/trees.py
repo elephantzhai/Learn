@@ -60,16 +60,12 @@ def majorityCnt(classList):
 def createTree(dataSet,labels):
 	classList = [example[-1] for example in dataSet]
 	if classList.count(classList[0]) == len(classList):
-		print dataSet,"return1"
 		return classList[0]
 	if len(dataSet[0]) == 1:
-		print dataSet,"return2"
 		return majorityCnt(classList)
 	bestFeat = chooseBestFeatureToSplit(dataSet)
 	bestFeatLabel = labels[bestFeat]
 
-	print bestFeat,bestFeatLabel
-	print dataSet
 
 	myTree = {bestFeatLabel:{}}
 	del(labels[bestFeat])
