@@ -1,6 +1,7 @@
 ﻿# coding=UTF-8
 import matplotlib.pyplot as plt
 import trees
+import copy
 
 decisionNode = dict(boxstyle="sawtooth", fc="0.8")
 leafNode = dict(boxstyle="round4", fc="0.8")
@@ -79,10 +80,16 @@ def createPlot(inTree):
 def main():
 	# createPlot()
 	dataSet,labels = trees.createDataSet()
-	mytree = trees.createTree(dataSet,labels)
+	labelsTmp = copy.deepcopy(labels)
+	mytree = trees.createTree(dataSet,labelsTmp)
+	print mytree
+	print dataSet
+	print labels
+
 	print getNumLeafs(mytree)
 	print getTreeDepth(mytree)
-	createPlot(mytree)
+	# createPlot(mytree)
+	print trees.classify(mytree,labels,[1,0])
 
 if __name__ == "__main__":
 	main()
