@@ -13,3 +13,10 @@
 -- 	print(l.value)
 -- 	l = l.next
 -- end
+
+-- 11.5
+local t = {}
+for line in io.lines() do
+	table.insert(t,line)
+end
+s = table.concat( t, "\n") .. "\n"
