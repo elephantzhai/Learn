@@ -7,3 +7,4 @@ http.createServer(function(req,res){
 	res.end(util.inspect(url.parse(url.parse(req.url,true))));
 
 }).listen(3001);
+//127.0.0.1:3001/user?name=elephantzhai&email=739476800@qq.com
